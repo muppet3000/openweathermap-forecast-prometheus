@@ -1,0 +1,7 @@
+general:
+    sleep_timer: HOW_LONG_DO_NOTHING
+owm:
+    api_key: YOUR_API_KEY
+    version: DEFAULTS_TO_2.5
+    cities:
+        - ADD_CITY_NAMES_HERE
