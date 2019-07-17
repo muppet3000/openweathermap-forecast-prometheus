@@ -1,0 +1,3 @@
+PyYAML
+pyowm
+prometheus_client
