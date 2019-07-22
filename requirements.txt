@@ -1,3 +1,5 @@
 PyYAML
 pyowm
 prometheus_client
+codecov
+pytest-cov
