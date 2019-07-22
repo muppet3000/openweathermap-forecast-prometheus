@@ -8,7 +8,7 @@ install:
 cache: pip
 
 script:
-  - pytest
+  - pytest --cov=./
 
 after_success:
   - codecov
