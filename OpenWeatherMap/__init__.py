@@ -2,7 +2,7 @@ import api
 import formatter
 
 
-def get_owm_api(config):
+def get_owm_client(config):
     owm_config = config.get('owm')
     assert owm_config is not None, 'No config section for OpenWeather found'
     assert 'api_key' in owm_config, 'No api-key for OpenWeather found'
@@ -15,4 +15,4 @@ def get_owm_api(config):
     from pyowm import OWM
     owm = OWM(API_key=api_key, version=config_version)
 
-    return api.OwmApiWrapper(owm_config, owm)
+    return api.OwmClient(owm_config, owm)

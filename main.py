@@ -14,7 +14,7 @@ sleep_timer = 30
 if ('general' in config) & isinstance(config['general'], (list, dict)):
     sleep_timer = config['general'].get('sleep_timer', 30)
 
-Owm = OpenWeatherMap.get_owm_api(config)
+Owm = OpenWeatherMap.get_owm_client(config)
 
 
 def process_request():

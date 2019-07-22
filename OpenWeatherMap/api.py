@@ -4,7 +4,7 @@ import time
 import datetime
 
 
-class OwmApiWrapper:
+class OwmClient:
     """
     Simple wrapper around pyowm to catch exceptions and to request multiple weather
 
