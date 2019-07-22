@@ -1,4 +1,7 @@
 # openweathermap_prometheus_python
+![GitHub](https://img.shields.io/github/license/lugark/openweathermap_prometheus_python.svg)
+![Travis (.org)](https://img.shields.io/travis/lugark/openweathermap_prometheus_python.svg)
+<br>
 An open source python script to fetch weather data OpenWeatherMap and expose it in a Prometheus format.
 It can be configured using a YAML file to fetch different locations/cities.
 
