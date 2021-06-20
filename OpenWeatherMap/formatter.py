@@ -1,5 +1,5 @@
 from prometheus_client import Summary, Gauge, Info
-import pyowm.webapi25.observation
+import pyowm.weatherapi25.observation
 
 WeatherInfo = Info('weather', 'Short information about weather dataset')
 WeatherTemp = Gauge('weather_temperature',
@@ -27,29 +27,28 @@ WeatherPressure = Gauge('weather_pressure',
 
 def format_owm_weather(weather_list):
     for obs in weather_list:
-        if not isinstance(obs, pyowm.webapi25.observation.Observation):
+        if not isinstance(obs, pyowm.weatherapi25.observation.Observation):
             continue
+        weather = obs.weather
+        location = obs.location
+        WeatherInfo.info({'lastfetch': obs.reception_time(timeformat='iso')})
 
-        weather = obs.get_weather()
-        location = obs.get_location()
-        WeatherInfo.info({'lastfetch': obs.get_reception_time(timeformat='iso')})
-
-        WeatherTemp.labels(name=location.get_name(),
+        WeatherTemp.labels(name=location.name,
                            type='current',
-                           id=location.get_ID()).set(weather.get_temperature(unit='celsius')['temp'])
-        WeatherTemp.labels(name=location.get_name(),
+                           id=location.id).set(weather.temperature(unit='celsius')['temp'])
+        WeatherTemp.labels(name=location.name,
                            type='temp_max',
-                           id=location.get_ID()).set(weather.get_temperature(unit='celsius')['temp_max'])
-        WeatherTemp.labels(name=location.get_name(),
+                           id=location.id).set(weather.temperature(unit='celsius')['temp_max'])
+        WeatherTemp.labels(name=location.name,
                            type='temp_min',
-                           id=location.get_ID()).set(weather.get_temperature(unit='celsius')['temp_min'])
+                           id=location.id).set(weather.temperature(unit='celsius')['temp_min'])
 
-        wind = weather.get_wind()
+        wind = weather.wind()
         if ('speed' in wind):
-            WeatherWindSpeed.labels(name=location.get_name(), id=location.get_ID()).set(wind['speed'])
+            WeatherWindSpeed.labels(name=location.name, id=location.id).set(wind['speed'])
         if ('deg' in wind):
-            WeatherWindDir.labels(name=location.get_name(), id=location.get_ID()).set(wind['deg'])
+            WeatherWindDir.labels(name=location.name, id=location.id).set(wind['deg'])
 
-        WeatherHumidity.labels(name=location.get_name(),
-                               id=location.get_ID()).set(weather.get_humidity())
+        WeatherHumidity.labels(name=location.name,
+                               id=location.id).set(weather.humidity)
     return

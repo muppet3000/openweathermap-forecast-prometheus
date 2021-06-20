@@ -1,5 +1,4 @@
-from pyowm.exceptions import api_call_error
-from pyowm.webapi25.owm25 import OWM25
+from pyowm.commons import exceptions
 import time
 import datetime
 
@@ -23,7 +22,7 @@ class OwmClient:
             observed = list()
             if 'cities' in self.config:
                 for city in self.config['cities']:
-                    city_data = self.owm.weather_at_places(str(city), searchtype='accurate', limit=3)  # type: list
+                    city_data = self.owm.weather_manager().weather_at_places(str(city), searchtype='accurate', limit=3)  # type: list
                     if len(city_data) != 0:
                         observed.append(city_data[0])
             return observed
@@ -31,8 +30,8 @@ class OwmClient:
         obs_list = list()
         try:
             obs_list.extend(get_city_weather())
-        except (api_call_error.APICallTimeoutError, api_call_error.APIInvalidSSLCertificateError) as e:
-            print '{} Error: {}'.format(datetime.datetime.now().isoformat(), e)
+        except (exceptions.TimeoutError, exceptions.InvalidSSLCertificateError) as e:
+            print('%s Error: %s' % (datetime.datetime.now().isoformat(), e))
             time.sleep(10)
             return list()
         return obs_list

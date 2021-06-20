@@ -1,6 +1,6 @@
-import api
-import formatter
-
+from . import api
+from . import formatter
+from pyowm import OWM
 
 def get_owm_client(config):
     owm_config = config.get('owm')
@@ -8,11 +8,9 @@ def get_owm_client(config):
     assert 'api_key' in owm_config, 'No api-key for OpenWeather found'
 
     api_key = str(owm_config.get('api_key'))
-    config_version = '2.5'
-    if 'version' in owm_config:
-        config_version = str(owm_config['version'])
 
-    from pyowm import OWM
-    owm = OWM(API_key=api_key, version=config_version)
+    #TODO - Consider adding section for customer 'config_dict' - https://pyowm.readthedocs.io/en/latest/v3/pyowm-configuration-description.html
+
+    owm = OWM(api_key)
 
     return api.OwmClient(owm_config, owm)
